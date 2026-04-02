@@ -1,0 +1,30 @@
+name: Docker CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive # Quan trong vi ban dung submodule
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build Backend Image
+      run: |
+        docker build -t shop-backend:latest ./Webbanhang_nhom11_BE
+
+    - name: Build Frontend Image
+      run: |
+        docker build -t shop-frontend:latest ./Webbanhang_nhom11_FE
+
+    - name: Verify Docker Compose config
+      run: docker compose config

@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  # Dich vu Backend
+  backend:
+    build: ./Webbanhang_nhom11_BE
+    container_name: shop-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+    networks:
+      - shop-network
+
+  # Dich vu Frontend
+  frontend:
+    build: ./Webbanhang_nhom11_FE
+    container_name: shop-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - shop-network
+
+networks:
+  shop-network:
+    driver: bridge
